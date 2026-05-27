@@ -1,17 +1,29 @@
 import os
 from groq import Groq
 
-# Read Groq credentials from the environment or Streamlit secrets.
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
+def get_groq_api_key():
+    """
+    Reads Groq credentials from environment variables or Streamlit secrets.
+    """
+    env_key = os.environ.get("GROQ_API_KEY", "").strip()
+    if env_key:
+        return env_key
+
+    try:
+        import streamlit as st
+        return str(st.secrets.get("GROQ_API_KEY", "")).strip()
+    except Exception:
+        return ""
 
 def get_groq_client():
     """
     Initializes the Groq client. Returns None if key is invalid or missing.
     """
-    if not GROQ_API_KEY:
+    groq_api_key = get_groq_api_key()
+    if not groq_api_key:
         return None
     try:
-        return Groq(api_key=GROQ_API_KEY)
+        return Groq(api_key=groq_api_key)
     except Exception:
         return None
 

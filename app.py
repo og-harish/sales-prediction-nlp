@@ -133,6 +133,15 @@ REQUIRED_DATA_COLUMNS = [
 def has_required_data_columns(df):
     return all(col in df.columns for col in REQUIRED_DATA_COLUMNS)
 
+def get_groq_api_key():
+    env_key = os.environ.get("GROQ_API_KEY", "").strip()
+    if env_key:
+        return env_key
+    try:
+        return str(st.secrets.get("GROQ_API_KEY", "")).strip()
+    except Exception:
+        return ""
+
 # Initialize Session State Variables
 if "df" not in st.session_state:
     st.session_state["df"] = None
@@ -168,7 +177,7 @@ with st.sidebar:
     st.sidebar.info("Navigate through the analytics modules using the pages menu above.")
     
     st.sidebar.markdown("### 🔑 API Integrations")
-    groq_key = os.environ.get("GROQ_API_KEY", "")
+    groq_key = get_groq_api_key()
     groq_key_status = "Connected" if groq_key.startswith("gsk_") and len(groq_key) > 10 else "Unavailable"
     if groq_key_status == "Connected":
         st.sidebar.success("Groq API: Connected ⚡")

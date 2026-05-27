@@ -1,7 +1,7 @@
 import streamlit as st
-import os
 import pandas as pd
 from groq import Groq
+from utils.nlp import get_groq_api_key
 
 # Set Streamlit Page Configuration
 st.set_page_config(
@@ -50,7 +50,7 @@ st.markdown('<h1 style="font-size: 2.5rem; margin-bottom: 5px;"><span class="gra
 st.markdown('<p style="color: #94A3B8; font-size:1.05rem; margin-bottom: 25px;">Ask data-specific questions about your active sales dataset, forecast patterns, or request general retail business advice.</p>', unsafe_allow_html=True)
 
 # Retrieve Groq API Key
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
+GROQ_API_KEY = get_groq_api_key()
 
 # Initialize Groq Client
 def get_groq_client():
