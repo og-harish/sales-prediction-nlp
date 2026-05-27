@@ -5,13 +5,13 @@ def get_groq_api_key():
     """
     Reads Groq credentials from environment variables or Streamlit secrets.
     """
-    env_key = os.environ.get("GROQ_API_KEY", "").strip()
+    env_key = os.environ.get("GROQ_API_KEY", "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").strip()
     if env_key:
         return env_key
 
     try:
         import streamlit as st
-        return str(st.secrets.get("GROQ_API_KEY", "")).strip()
+        return str(st.secrets.get("GROQ_API_KEY", "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")).strip()
     except Exception:
         return ""
 
